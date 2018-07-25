@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<%- include('../partials/head.ejs') %>
+	<title>Shopping Cart | Add Page</title>
+</head>
+<body>
+	<!-- Admin Navbar -->
+	<%- include('../partials/adminNavBar.ejs') %> 
+	
+	<div class="container">
+		<h2 class="page-title">Add a Page</h2>
+		<a href="/admin/pages" class="btn btn-secondary">All Pages</a>
+		<br><br>
+
+		<!-- Add Page Form -->
+		<form autocomplete="off" action="/admin/add-page" method="post">
+			<div class="form-group">
+				<input class="form-control" type="text" name="title" value="<%= title %>" placeholder="Title">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="slug" value="<%= slug %>" placeholder="Slug">
+			</div>
+			<div class="form-group">
+				<textarea cols="30" rows="10" class="form-control" name="content" value="<%= content %>" placeholder="Content"></textarea> 
+			</div>
+			<!-- Submit Button -->
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+
+	<!-- Footer -->
+    <%- include('../partials/footer.ejs') %>
+
+	<!-- Scripts -->
+    <%- include('../partials/scripts.ejs') %>
+</body>
+</html>

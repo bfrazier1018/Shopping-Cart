@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<%- include('../partials/head.ejs') %>
+	<title>Shopping Cart | Pages</title>
+</head>
+<body>
+	<!-- Admin Navbar -->
+	<%- include('../partials/adminNavBar.ejs') %> 
+	
+	<div class="container">
+		<h2 class="page-title">Pages</h2>
+		<a href="/admin/add-page" class="btn btn-secondary">Add a Page</a>
+		<br><br>
+
+		<table class="table table-striped sortable-table">
+			<thead>
+				<tr class="home">
+					<th>Title</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% pages.forEach(function(page) { %>
+					<tr id="id_<%= page.id %>" class="<%= page.slug %>">
+						<td><%= page.title %></td>
+						<td><a href="/admin/pages/edit-page/<%= page.slug %>">Edit</a></td>
+						<% if(page.slug === "home") { %>
+							<td></td>
+						<% } else { %>
+							<td><a href="/admin/pages/delete-page/<%= page._id %>">Delete</a></td>
+						<%} %>
+					</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Footer -->
+    <%- include('../partials/footer.ejs') %>	
+
+    <!-- Scripts -->
+    <%- include('../partials/scripts.ejs') %>		
+    <script>
+      $( function() {
+        $('tbody').sortable({
+        	placeholder: "ui-state-highlight",
+        	items: "tr:not('.home')",
+        	update: function() {
+        		var ids = $('tbody').sortable("serialize");
+        		var url = "/admin/pages/reorder-pages";
+
+        		$.post(url, ids);
+        	}
+        });
+      });
+    </script>
+
+</body>
+</html>

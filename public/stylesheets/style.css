@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* ------- Navbar ------- */
+.navbar {
+	margin-bottom: 50px;
+}
+
+/* ------- Footer ------- */
+footer {
+	margin-top: 50px;
+}
+
+
+
+/* ------------------------------------ ADMIN --------------------------------------- */
+
+.sortable-table tr:not(.home) {
+	cursor: pointer;
+}
+
+.ui-state-highlight {
+	border: 1px dashed #ccc;
+}
+
