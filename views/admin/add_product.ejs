@@ -10,11 +10,19 @@
 	<%- include('../partials/adminNavBar.ejs') %> 
 	
 	<div class="container">
+		<!-- Display Form Errors -->
+		<% if (typeof errors !== 'undefined' ) { %>
+			<% errors.forEach(function(error) { %>
+				<div class="alert alert-danger">
+					<%= error.msg %>
+				</div>
+			<%});%>
+		<% } %>
 		<h2 class="page-title">Add a Product</h2>
 		<a href="/admin/products" class="btn btn-secondary">All Products</a>
 		<br><br>
 
-		<!-- Add Page Form -->
+		<!-- Add Product Form -->
 		<form autocomplete="off" action="/admin/products/add-product" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<input class="form-control" type="text" name="title" value="<%= title %>" placeholder="Title">
@@ -23,14 +31,14 @@
 				<textarea cols="30" rows="10" class="form-control" name="desc" placeholder="Description"><%= desc %></textarea> 
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" name="price" value="<%= price %>" placeholder="Price">
-			</div>
-			<div class="form-group">
 				<select name="category" class="form-control">
-					<% categories.forEach(function(category) { %>
-						<option value="<%= category.slug %>"><%= category.title %></option>
+					<% categories.forEach(function(cat) { %>
+						<option value="<%= cat.slug %>"><%= cat.title %></option>
 					<% }); %>
 				</select>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="price" value="<%= price %>" placeholder="Price">
 			</div>
 			<div class="form-group">
 				<input class="form-control" type="file" name="image" id="img">

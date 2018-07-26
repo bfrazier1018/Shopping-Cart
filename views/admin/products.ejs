@@ -10,6 +10,12 @@
 	<%- include('../partials/adminNavBar.ejs') %> 
 	
 	<div class="container">
+		<!-- Display Messages -->
+		<% if (messages.length > 0 ) { %>
+			<div class="alert alert-success">
+				<%= messages %>
+			</div>
+		<% }  %>
 		<h2 class="page-title">Products</h2>
 		<a href="/admin/products/add-product" class="btn btn-secondary">Add a Product</a>
 		<br><br>
@@ -35,9 +41,9 @@
 						<td><%= product.category %></td>
 						<td>
 							<% if (product.image == "") { %>
-								<img src="/images/noimage.png" alt="">
+								<img id="productImage" src="/images/noimage.png" alt="">
 							<% } else { %>
-								<img src="/product_images/<%= product._id %>/<%= product.image %>">
+								<img id="productImage" src="/product_images/<%= product._id %>/<%= product.image %>">
 							<% } %>
 						</td>
 						<td><a href="/admin/products/edit-product/<%= product._id %>">Edit</a></td>

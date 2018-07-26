@@ -36,7 +36,26 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(validator());
+app.use(validator({
+    customValidators: {
+      isImage: (value, filename) => {
+        var extension = (path.extname(filename)).toLowerCase();
+        switch(extension) {
+          case '.jpg': 
+            return '.jpg';
+          case '.jpeg': 
+            return '.jpeg';
+          case '.png': 
+            return '.png';
+          case '': 
+            return '.jpg';
+          default: 
+            return false;
+        }
+      }
+    }
+  } 
+));
 app.use(cookieParser());
 // express-Sessions
 app.use(session({

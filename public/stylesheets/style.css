@@ -8,10 +8,6 @@ body {
 	margin-bottom: 50px;
 }
 
-#imgPreview {
-	margin: 20px;
-}
-
 /* ------- Footer ------- */
 footer {
 	margin-top: 50px;
@@ -27,5 +23,30 @@ footer {
 
 .ui-state-highlight {
 	border: 1px dashed #ccc;
+}
+
+#imgPreview {
+	margin: 20px;
+}
+
+/* Product Image*/
+#productImage {
+	width: 100px;
+	height: 100px;
+}
+
+/* Gallery Images */
+ul.gallery {
+	padding: 0;
+}
+
+ul.gallery li:first-child {
+	margin-left: 0;
+}
+
+ul.gallery li {
+	margin-left: 20px;
+	display: inline-block;
+	list-style: none;
 }
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<%- include('../partials/head.ejs') %>
+	<title>Shopping Cart | Edit Product</title>
+	<!-- Dropzone -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/basic.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css"/>
+</head>
+<body>
+	<!-- Admin Navbar -->
+	<%- include('../partials/adminNavBar.ejs') %> 
+	
+	<div class="container">
+		<!-- Display Messages -->
+		<% if (messages.length > 0 ) { %>
+			<div class="alert alert-success">
+				<%= messages %>
+			</div>
+		<% }  %>
+		<!-- Page Header -->
+		<h2 class="page-title">Edit Product</h2>
+		<a href="/admin/products" class="btn btn-secondary">All Products</a>
+		<br><br>
+
+		<!-- Add Page Form -->
+		<form autocomplete="off" action="/admin/products/edit-product/<%= id %>" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<input class="form-control" type="text" name="title" value="<%= title %>" placeholder="Title">
+			</div>
+			<div class="form-group">
+				<textarea cols="30" rows="10" class="form-control" name="desc" placeholder="Description"><%= desc %></textarea> 
+			</div>
+			<div class="form-group">
+				<select name="category" class="form-control">
+					<% categories.forEach(function(cat) { %>
+						<option value="<%= cat.slug %>"
+							<% if (cat.slug == category) { %>
+								selected="selected"
+							<% } %>
+							><%= cat.title %>
+						</option>
+					<% }); %>
+				</select>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="price" value="<%= price %>" placeholder="Price">
+			</div>
+			<div class="form-group">
+				<label for="">Current Image</label>
+				<p>
+					<% if (image == '') { %>
+						<img id="productImage" src="/images/noimage.png" alt="">
+					<% } else { %>
+						<img id="productImage" src="/product_images/<%= id %>/<%= image %>" alt="">
+					<% } %>
+				</p>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="file" name="image" id="img">
+				<img src="#" id="imgPreview">
+			</div>
+			<input type="hidden" name="pimage" value="<%= image %>">
+			<!-- Submit Button -->
+			<button type="submit" class="btn btn-primary">Update</button>
+		</form>
+		
+		<!-- Gallery Images -->
+		<hr>
+		<h3 class="page-header">Gallery</h3>
+
+		<ul class="gallery">
+			<% galleryImages.forEach(function(image) { %>
+				<% if (image != "thumbs") { %>
+					<li>
+						<img class="productImage" src="/product_images/<%= id %>/gallery/thumbs/<%= image %>" alt="" >&nbsp;
+						<a class="confirmDeletion" href="/admin/products/delete-image/<%= image %>?id=<%= id %>">Delete</a>
+					</li>
+				<% } %>
+			<% }); %>
+		</ul>
+		<br><br>
+		<form class="dropzone" id="dropzoneForm" action="/admin/products/product-gallery/<%= id %>" method="post" enctype="multipart/form-data">
+			<div class="fallback">
+				<input type="file" name="file" multiple >
+				<input type="submit" value="Upload" >
+			</div>
+		</form>
+	</div>
+
+	<!-- Footer -->
+    <%- include('../partials/footer.ejs') %>
+
+	<!-- Scripts -->
+    <%- include('../partials/scripts.ejs') %>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
+    <script>
+    	<!-- Preview Image -->
+    	function readURL(input) {
+    		if (input.files && input.files[0]) {
+    			var reader = new FileReader();
+
+	    		reader.onload = function(e) {
+	    			$('#imgPreview').attr('src', e.target.result).width(100).height(100);
+	    		}
+
+    			reader.readAsDataURL(input.files[0]);
+    		}
+    	}
+
+    	$('#img').change(function() {
+    		readURL(this);
+    	});
+
+    	// Dropzone 
+    	Dropzone.options.dropzoneForm = {
+    		acceptedFiles: "image/*",
+    		init: function() {
+    			this.on("queuecomplete", function(file) {
+    				setTimeout(function() {
+    					location.reload()
+    				}, 1000);
+    			});
+    		}
+    	}
+    </script>
+</body>
+</html>
