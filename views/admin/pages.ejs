@@ -11,7 +11,7 @@
 	
 	<div class="container">
 		<h2 class="page-title">Pages</h2>
-		<a href="/admin/add-page" class="btn btn-secondary">Add a Page</a>
+		<a href="/admin/pages/add-page" class="btn btn-secondary">Add a Page</a>
 		<br><br>
 
 		<table class="table table-striped sortable-table">
@@ -26,7 +26,7 @@
 				<% pages.forEach(function(page) { %>
 					<tr id="id_<%= page.id %>" class="<%= page.slug %>">
 						<td><%= page.title %></td>
-						<td><a href="/admin/pages/edit-page/<%= page.slug %>">Edit</a></td>
+						<td><a href="/admin/pages/edit-page/<%= page._id %>">Edit</a></td>
 						<% if(page.slug === "home") { %>
 							<td></td>
 						<% } else { %>

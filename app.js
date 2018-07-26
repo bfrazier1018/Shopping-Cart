@@ -6,6 +6,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const validator = require('express-validator');
 const flash = require('connect-flash');
+const fileUpload = require('express-fileupload');
 
 // Database 
 const mongoose = require('mongoose');
@@ -22,7 +23,9 @@ db.once('open', () => {
 // Import Routes
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const adminRouter = require('./routes/admin');
+const adminPagesRouter = require('./routes/admin_pages');
+const adminCategoriesRouter = require('./routes/admin_categories');
+const adminProductsRouter = require('./routes/admin_products');
 
 const app = express();
 
@@ -35,18 +38,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
+// express-Sessions
 app.use(session({
   secret: 'supersecret', 
   resave: false, 
   saveUninitialized: false,
   cookie: { maxAge: 60000 }
 }));
+// express-fileupload
+app.use(fileUpload());
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Use Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
+app.use('/admin/pages', adminPagesRouter);
+app.use('/admin/categories', adminCategoriesRouter);
+app.use('/admin/products', adminProductsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

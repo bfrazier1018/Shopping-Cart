@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<%- include('../partials/head.ejs') %>
+	<title>Shopping Cart | Products</title>
+</head>
+<body>
+	<!-- Admin Navbar -->
+	<%- include('../partials/adminNavBar.ejs') %> 
+	
+	<div class="container">
+		<h2 class="page-title">Products</h2>
+		<a href="/admin/products/add-product" class="btn btn-secondary">Add a Product</a>
+		<br><br>
+		
+		<!-- If Products -->
+		<% if (count > 0) { %>
+			<table class="table table-striped">
+			<thead>
+				<tr class="home">
+					<th>Product</th>
+					<th>Price</th>
+					<th>Category</th>
+					<th>Image</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% products.forEach(function(product) { %>
+					<tr>
+						<td><%= product.title %></td>
+						<td>$<%= parseFloat(product.price).toFixed(2) %></td>
+						<td><%= product.category %></td>
+						<td>
+							<% if (product.image == "") { %>
+								<img src="/images/noimage.png" alt="">
+							<% } else { %>
+								<img src="/product_images/<%= product._id %>/<%= product.image %>">
+							<% } %>
+						</td>
+						<td><a href="/admin/products/edit-product/<%= product._id %>">Edit</a></td>
+						<td><a class="confirmDeletion" href="/admin/products/delete-product/<%= product._id %>">Delete</a></td>
+					</tr>
+				<% }); %>
+			</tbody> 
+		</table>
+		<% } else { %>
+			<h3 class="text-center">There are no Products</h3>
+		<% } %>
+	</div>
+
+	<!-- Footer -->
+    <%- include('../partials/footer.ejs') %>	
+
+    <!-- Scripts -->
+    <%- include('../partials/scripts.ejs') %>		
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<%- include('../partials/head.ejs') %>
+	<title>Shopping Cart | Add Product</title>
+</head>
+<body>
+	<!-- Admin Navbar -->
+	<%- include('../partials/adminNavBar.ejs') %> 
+	
+	<div class="container">
+		<h2 class="page-title">Add a Product</h2>
+		<a href="/admin/products" class="btn btn-secondary">All Products</a>
+		<br><br>
+
+		<!-- Add Page Form -->
+		<form autocomplete="off" action="/admin/products/add-product" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<input class="form-control" type="text" name="title" value="<%= title %>" placeholder="Title">
+			</div>
+			<div class="form-group">
+				<textarea cols="30" rows="10" class="form-control" name="desc" placeholder="Description"><%= desc %></textarea> 
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="price" value="<%= price %>" placeholder="Price">
+			</div>
+			<div class="form-group">
+				<select name="category" class="form-control">
+					<% categories.forEach(function(category) { %>
+						<option value="<%= category.slug %>"><%= category.title %></option>
+					<% }); %>
+				</select>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="file" name="image" id="img">
+				<img src="#" id="imgPreview">
+			</div>
+			
+			<!-- Submit Button -->
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+
+	<!-- Footer -->
+    <%- include('../partials/footer.ejs') %>
+
+	<!-- Scripts -->
+    <%- include('../partials/scripts.ejs') %>
+    <script>
+    	function readURL(input) {
+    		if (input.files && input.files[0]) {
+    			var reader = new FileReader();
+
+	    		reader.onload = function(e) {
+	    			$('#imgPreview').attr('src', e.target.result).width(100).height(100);
+	    		}
+
+    			reader.readAsDataURL(input.files[0]);
+    		}
+    	}
+
+    	$('#img').change(function() {
+    		readURL(this);
+    	});
+    </script>
+</body>
+</html>

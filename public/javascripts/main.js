@@ -5,7 +5,7 @@ $(function() {
 		CKEDITOR.replace('ta');
 	}
 
-	// Confirm Deletion
+	// Confirm Deletion Alert
 	$('a.confirmDeletion').on('click', () => {
 		if (!confirm('Confirm deletion'))
 			return false;

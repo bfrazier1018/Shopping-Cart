@@ -8,6 +8,10 @@ body {
 	margin-bottom: 50px;
 }
 
+#imgPreview {
+	margin: 20px;
+}
+
 /* ------- Footer ------- */
 footer {
 	margin-top: 50px;

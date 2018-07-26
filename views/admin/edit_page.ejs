@@ -15,7 +15,7 @@
 		<br><br>
 
 		<!-- Add Page Form -->
-		<form action="/admin/pages/edit-page/<%= slug %>" method="post">
+		<form action="/admin/pages/edit-page/<%= id %>" method="post">
 			<div class="form-group">
 				<input class="form-control" type="text" name="title" value="<%= title %>" placeholder="Title">
 			</div>
@@ -25,7 +25,6 @@
 			<div class="form-group">
 				<textarea class="form-control" id="ta" name="content" cols="30" rows="10"><%= content %></textarea> 
 			</div>
-			<input type="hidden" name="id" value="<%= id %>">
 			<!-- Submit Button -->
 			<button type="submit" class="btn btn-primary">Update</button>
 		</form>
