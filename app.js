@@ -7,6 +7,7 @@ const session = require('express-session');
 const validator = require('express-validator');
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload');
+const passport = require('passport');
 
 // Database 
 const mongoose = require('mongoose');
@@ -93,7 +94,13 @@ Category.find( (err, categories) => {
   }
 });
 
-// Cart Session
+// Passport Config
+require('./config/passport')(passport);
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Global Variables
 app.get('*', (req, res, next) => {
   res.locals.cart = req.session.cart;
   next();

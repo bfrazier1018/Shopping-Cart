@@ -19,19 +19,29 @@
         <% });%>
       </ul>
       <ul class="nav navbar-nav ml-auto">
-        <l1 class="nav-item" class="nav-link">
-          <a href="/cart/checkout">Cart (
+        <li class="nav-item">
+          <a class="nav-link" href="/cart/checkout">Cart (
             <% if (typeof cart !== "undefined") { %>
               <%= cart.length %>
             <% } else { %>
               0
             <% } %>
           )</a>
-        </l1>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="/users/register">Sign Up</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- AJax PayPal -->
+<div class="ajaxbg">
+  <div class="ajaxinner">
+    <h3>You are Now being redirected to Pay Pal</h3>
+    <img src="/images/ajax-loader.gif" alt="">
+  </div>
+</div>
 
 <div class="container">
   <div class="row">
