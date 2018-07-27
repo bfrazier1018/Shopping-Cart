@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
+// Admin Auth
+var auth = require('../config/auth');
+var isAdmin = auth.isAdmin;
+
 // Get Category Model
 var Category = require('../models/category.js');
 
 // ************* /admin/categories ************
 
 // ---------------------------------- All Categories ------------------------------
-router.get('/', (req, res) => {
+router.get('/', isAdmin ,(req, res) => {
 	Category.find((err, categories) => {
     if (err) return console.log(err);
     res.render('admin/categories', {
@@ -16,7 +20,7 @@ router.get('/', (req, res) => {
 });
 
 // -------------------------------- Add Category -- GET --------------------------------
-router.get('/add-category', (req, res) => {
+router.get('/add-category', isAdmin, (req, res) => {
  
   var title = "";
 
@@ -76,7 +80,7 @@ router.post('/add-category', (req, res) => {
 });
 
 // ------------------------------- Edit Category -- GET ----------------------------
-router.get('/edit-category/:id', (req, res) => {
+router.get('/edit-category/:id', isAdmin, (req, res) => {
   
   // Find One Category by Slug 
   Category.findById(req.params.id, (err, category) => {
@@ -145,7 +149,7 @@ router.post('/edit-category/:id', (req, res) => {
 });
 
 // ------------------------- Delete Category --------------------
-router.get('/delete-category/:id', (req, res) => {
+router.get('/delete-category/:id', isAdmin, (req, res) => {
   Category.findByIdAndRemove(req.params.id, (err) => {
     if (err) return console.log(err);
 

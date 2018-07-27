@@ -28,8 +28,18 @@
             <% } %>
           )</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="/users/register">Sign Up</a></li>
-        <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
+        <!-- If User -->
+        <% if (user) { %>
+          <li class="nav-item"><a class="nav-link" href="/users/logout">Logout</a></li>
+          <!-- No User -->
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link" href="/users/register">Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
+        <% } %>
+        <!-- Admin User -->
+        <% if (user && user.admin == 1) { %>
+          <li class="nav-item"><a class="nav-link" href="/admin/pages">Admin Area</a></li>
+        <% } %>
       </ul>
     </div>
   </div>

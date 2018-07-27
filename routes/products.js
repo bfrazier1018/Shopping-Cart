@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs-extra');
+// For Creating Auth
+// var auth = require('../config/auth');
+// var isUser = auth.isUser;
 
 // Get Product Model
 const Product = require('../models/product');
@@ -10,6 +13,8 @@ const Category = require('../models/category');
 // ***************************** /products ******************************
 
 // Get All Products 
+// Only Allowing Users access - From Config/auth
+// router.get('/', isUser, (req, res) => {
 router.get('/', (req, res) => {
 	Product.find( (err, products) => {
 		if (err) console.log(err);
@@ -42,6 +47,7 @@ router.get('/:category', (req, res) => {
 router.get('/:category/:product', (req, res) => {
 
 	var galleryImages = null;
+	var loggedIn = (req.isAuthenticated()) ? true : false;
 
 	Product.findOne({slug: req.params.product}, (err, product) => {
 		if (err) {
@@ -58,7 +64,8 @@ router.get('/:category/:product', (req, res) => {
 						title: product.title,
 						product: product,
 						galleryImages: galleryImages,
-						messages: req.flash('success')
+						messages: req.flash('success'),
+						loggedIn: loggedIn
 					});
 				}
 			});
