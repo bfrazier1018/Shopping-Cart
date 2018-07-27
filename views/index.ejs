@@ -3,14 +3,23 @@
 <head>
 	<!-- Head -->
 	<% include partials/head.ejs %>
-	<title>Shopping Cart | Home</title>
+	<title>Shopping Cart <%= title %></title>
 </head>
 <body>
 	<!-- Navbar -->
 	<% include partials/navbar.ejs %> 
 
-	<h1>Home Page</h1>
+	<div class="container">
+		<h1><%= title %></h1>
+		<br><br>
+		<div>
+			<p><%= content %></p>
+		</div>
+	</div>
 
+	<!-- Footer -->
+	<% include partials/footer.ejs %>
+	
 	<!-- Scripts -->
     <% include partials/scripts.ejs %>
 </body>

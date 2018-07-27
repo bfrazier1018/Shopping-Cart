@@ -8,6 +8,20 @@ body {
 	margin-bottom: 50px;
 }
 
+img.pimage {
+	width: 125px;
+}
+
+a.pa {
+	display: inline-block;
+	height: 160px;
+}
+
+.row.products .p {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 /* ------- Footer ------- */
 footer {
 	margin-top: 50px;

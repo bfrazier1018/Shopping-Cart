@@ -3,20 +3,19 @@ var router = express.Router();
 // Get Page Model
 var Page = require('../models/page.js');
 
-// ************* /admin/pages *****************
+// ******************* /admin/pages *****************
 
 // ---------------------------------- All Pages ------------------------------
 router.get('/', (req, res) => {
 	Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
 		res.render('admin/pages', {
 			pages: pages
-		})
+		});
 	});
 });
 
-// -------------------------------- Reorder Pages -- AJAX Post ---------------------------
-router.post('/reorder-pages', (req, res) => {
-  var ids = req.body['id[]'];
+// Sort Pages Function
+function sortPages (ids, callback) {
   var count = 0;
 
   for(var i = 0; i < ids.length; i++) {
@@ -27,13 +26,31 @@ router.post('/reorder-pages', (req, res) => {
       Page.findById(id, (err, page) => {
         page.sorting = count;
         page.save((err) => {
-          if (err) { 
-            return console.log(err);
+          if (err) return console.log(err);
+          count++;
+          if (count >= ids.length) {
+            callback();
           }
         });
       });
     })(count);
   }
+};
+
+// -------------------------------- Reorder Pages -- AJAX Post ---------------------------
+router.post('/reorder-pages', (req, res) => {
+
+  var ids = req.body['id[]'];
+
+  sortPages(ids, () => {
+    Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
+      if (err) {
+        console.log(err);
+      } else {
+        req.app.locals.pages = pages;
+      }
+    });
+  });
 });
 
 // -------------------------------- Add Page -- GET --------------------------------
@@ -95,6 +112,14 @@ router.post('/add-page', (req, res) => {
   				if (err) {
   					return console.log(err);
   				}
+          // For Page Sorting
+          Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
+            if (err) {
+              console.log(err);
+            } else {
+              req.app.locals.pages = pages;
+            }
+          });
   				req.flash('success', 'Page Added');
   				res.redirect('/admin/pages');
   			});
@@ -169,6 +194,16 @@ router.post('/edit-page/:id', (req, res) => {
            // Save Page
           page.save(function(err) {
             if (err) return console.log(err);
+
+            // For Page Sorting
+            Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
+              if (err) {
+                console.log(err);
+              } else {
+                req.app.locals.pages = pages;
+              }
+            });
+
             req.flash('success', 'Page Added');
             res.redirect('/admin/pages');
           });
@@ -182,6 +217,16 @@ router.post('/edit-page/:id', (req, res) => {
 router.get('/delete-page/:id', (req, res) => {
   Page.findByIdAndRemove(req.params.id, (err) => {
     if (err) return console.log(err);
+
+    // For Page Sorting
+    Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
+      if (err) {
+        console.log(err);
+      } else {
+        req.app.locals.pages = pages;
+      }
+    });
+
     req.flash('success', 'Paged Deleted');
     res.redirect('/admin/pages');
   });

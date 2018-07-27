@@ -20,8 +20,9 @@ db.once('open', () => {
 	console.log('-------- Connected to MongoDB ---------');
 });
 
-// Import Routes
-const indexRouter = require('./routes/index');
+// Set Routes
+const pagesRouter = require('./routes/pages');
+const productsRouter = require('./routes/products');
 const usersRouter = require('./routes/users');
 const adminPagesRouter = require('./routes/admin_pages');
 const adminCategoriesRouter = require('./routes/admin_categories');
@@ -69,12 +70,35 @@ app.use(fileUpload());
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Get Page Model
+const Page = require('./models/page');
+// Get All Pages to Pass to Header.ejs
+Page.find({}).sort({sorting: 1}).exec(function(err, pages) {
+  if (err) {
+    console.log(err);
+  } else {
+    app.locals.pages = pages;
+  }
+});
+
+// Get Category Model
+const Category = require('./models/category');
+// Get All Categories to Pass to Header.ejs
+Category.find( (err, categories) => {
+  if (err) {
+    console.log(err);
+  } else {
+    app.locals.categories = categories;
+  }
+});
+
 // Use Routes
-app.use('/', indexRouter);
+app.use('/products', productsRouter);
 app.use('/users', usersRouter);
 app.use('/admin/pages', adminPagesRouter);
 app.use('/admin/categories', adminCategoriesRouter);
 app.use('/admin/products', adminProductsRouter);
+app.use('/', pagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
