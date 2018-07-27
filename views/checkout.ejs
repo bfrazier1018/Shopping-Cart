@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Head -->
+	<% include partials/head.ejs %>
+	<title>Shopping Cart <%= title %></title>
+</head>
+<body>
+	<!-- Navbar -->
+	<% include partials/navbar.ejs %> 
+
+	<!-- Display Messages -->
+		<% if (messages.length > 0 ) { %>
+			<div class="alert alert-success">
+				<%= messages %>
+			</div>
+		<% }  %>
+
+	<!-- If Items in Cart -->
+	<% if (typeof cart !== "undefined") { %>
+
+		<h1 class="page-title">My Cart</h1>	
+		<br>
+		<table class="table align-middle">
+			<thead>
+				<tr>
+				<th>Image</th>
+				<th>Title</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th></th>
+				<th>Subtotal</th>
+			</tr>
+			</thead>
+
+			<tbody>
+				<% var total = 0; %>
+				<% cart.forEach(function(product) { %>
+				<% var subtotal = parseFloat(product.qty * product.price).toFixed(2) %>
+				<% total += +subtotal %>
+					<tr>
+						<td><img class="cpi" src="<%= product.image %>" alt=""></td>
+						<td><%= product.title %></td>
+						<td>$<%= product.price %></td>
+						<td><%= product.qty %></td>
+						<td>
+							<a href="/cart/update/<%= product.title %>?action=add">+</a>&nbsp;
+							<a href="/cart/update/<%= product.title %>?action=subtract">-</a>&nbsp;
+							<a href="/cart/update/<%= product.title %>?action=clear">Clear</a>&nbsp;
+						</td>
+						<td>$<%= subtotal %></td>
+					</tr>
+
+				<% }); %>
+				
+				<!-- Total Price -->
+				<tr>
+					<td colspan="6" align="right"><b>Total: $<%= parseFloat(total).toFixed(2) %></b></td>
+				</tr>
+				<tr>
+					<td colspan="6" align="right">
+						<a class="clear-cart btn btn-danger" href="/cart/clear">Clear Cart</a>
+						<a class="btn btn-primary buy-now" href="#">Checkout</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	
+	<!-- If Cart is Empty -->
+	<% } else { %>
+		<h3 class="text-center">Your Cart is Empty</h3>
+	<% }  %>
+		
+	<!-- Footer -->
+	<% include partials/footer.ejs %>
+	
+	<!-- Scripts -->
+    <% include partials/scripts.ejs %>
+    <script>
+    	$(function() {
+
+    		// Clear Cart
+			$('a.clear-cart').on('click', () => {
+				if (!confirm('Confirm Clear Cart'))
+					return false;
+			});
+    	});
+    </script>
+</body>
+</html>

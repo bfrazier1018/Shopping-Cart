@@ -23,6 +23,7 @@ db.once('open', () => {
 // Set Routes
 const pagesRouter = require('./routes/pages');
 const productsRouter = require('./routes/products');
+const cartRouter = require('./routes/cart');
 const usersRouter = require('./routes/users');
 const adminPagesRouter = require('./routes/admin_pages');
 const adminCategoriesRouter = require('./routes/admin_categories');
@@ -92,8 +93,15 @@ Category.find( (err, categories) => {
   }
 });
 
+// Cart Session
+app.get('*', (req, res, next) => {
+  res.locals.cart = req.session.cart;
+  next();
+});
+
 // Use Routes
 app.use('/products', productsRouter);
+app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
 app.use('/admin/pages', adminPagesRouter);
 app.use('/admin/categories', adminCategoriesRouter);

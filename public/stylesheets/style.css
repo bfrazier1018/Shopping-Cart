@@ -22,6 +22,26 @@ a.pa {
 	margin-bottom: 20px;
 }
 
+img.spi {
+	width: 100%;
+}
+
+ul.gallery li {
+	display: inline-block;
+	margin: 20px;
+	list-style: none;
+}
+
+img.cpi {
+	width: 100px;
+}
+
+table.align-middle td {
+	vertical-align: middle !important;
+}
+
+
+
 /* ------- Footer ------- */
 footer {
 	margin-top: 50px;

@@ -10,4 +10,9 @@ $(function() {
 		if (!confirm('Confirm deletion'))
 			return false;
 	});
+
+	// Fancybox 
+	if ($("[data-fancybox").length) {
+		$("[data-fancybox").fancybox();
+	}
 });
